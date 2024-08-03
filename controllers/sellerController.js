@@ -26,7 +26,7 @@ const sellerRegister = async (req, res) => {
                 ...rest,
                 email,
                 shopName,
-                password: hashedPass
+                password: hashedPass //Bug: password was not mentioned , but now it is mentioned here
             });
 
             let result = await seller.save();

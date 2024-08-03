@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-// Middleware to authenticate JWT token
+
 const authMiddleware = (req, res, next) => {
 
 	const token1 = req.header("Authorization")
@@ -14,8 +14,8 @@ const authMiddleware = (req, res, next) => {
     }
 
     try {
-        // Bug: Changed from jwt.env to jwt.verify for decoding the token
-        const decoded = jwt.verify(token, process.env.SECRET_KEY); // Use jwt.verify to decode the token
+        // Bug: Changed from jwt.env to jwt.verify for decoding the token using the secret key of env file
+        const decoded = jwt.verify(token, process.env.SECRET_KEY); 
         req.user = decoded;
         next(); // Proceed to the next middleware or route handler
     } catch (err) {

@@ -26,7 +26,7 @@ const newOrder = async (req, res) => {
         return res.status(201).send(order); // Bug : Use status 201 for resource created
 
     } catch (err) {
-        console.error(err); // Log the error for debugging
+        console.error(err); 
         return res.status(500).json({ message: 'Internal server error' }); // Bug : Provide a more generic error message
     }
 };
