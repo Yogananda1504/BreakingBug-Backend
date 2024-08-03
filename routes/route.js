@@ -4,7 +4,7 @@ const authMiddleware = require('../middleware/authMiddleware.js');
 const {
     sellerRegister,
     sellerLogIn
-} = require('../controllers/orderController.js');
+} = require('../controllers/sellerController.js'); // Bug 1: Incorrect controller import
 
 const {
     productCreate,
@@ -31,41 +31,43 @@ const {
 
 const {
     newOrder,
-    getOrderedProductsBySeller
+    getOrderedProductsBySeller,
+    getOrderedProductsByCustomer // Bug 2: Missing import
 } = require('../controllers/orderController.js');
-
 
 // Seller
 router.post('/SellerRegister', sellerRegister);
 router.post('/SellerLogin', sellerLogIn);
 
 // Product
-router.post('/ProductCreate', productCreate);
-router.get('/getSellerProducts/:id', getSellerProducts);
+router.post('/ProductCreate', authMiddleware, productCreate); // Bug 3: Missing authentication middleware
+router.get('/getSellerProducts/:id', authMiddleware, getSellerProducts);
 router.get('/getProducts', getProducts);
 router.get('/getProductDetail/:id', getProductDetail);
-router.get('/getInterestedCustomers/:id', getInterestedCustomers);
-router.get('/getAddedToCartProducts/:id', getAddedToCartProducts);
+router.get('/getInterestedCustomers/:id', authMiddleware, getInterestedCustomers);
+router.get('/getAddedToCartProducts/:id', authMiddleware, getAddedToCartProducts);
 
-router.put('/ProductUpdate/:id', updateProduct);
-router.put('/addReview/:id', addReview);
+router.put('/ProductUpdate/:id', authMiddleware, updateProduct);
+router.put('/addReview/:id', authMiddleware, addReview);
 
 router.get('/searchProduct/:key', searchProductbyCategory);
 router.get('/searchProductbyCategory/:key', searchProductbyCategory);
 router.get('/searchProductbySubCategory/:key', searchProductbyCategory);
 
-router.delete('/DeleteProduct/:id', deleteProduct);
-router.delete('/DeleteProducts/:id', deleteProducts);
-router.delete ('/deleteProductReview/:id', deleteProductReview);
-router.put ('/deleteAllProductReviews/:id', deleteAllProductReviews);
+router.delete('/DeleteProduct/:id', authMiddleware, deleteProduct);
+router.delete('/DeleteProducts/:id', authMiddleware, deleteProducts);
+router.delete('/deleteProductReview/:id', authMiddleware, deleteProductReview);
+router.delete('/deleteAllProductReviews/:id', authMiddleware, deleteAllProductReviews); // Bug 4: Incorrect HTTP method
 
 // Customer
 router.post('/CustomerRegister', customerRegister);
 router.post('/CustomerLogin', customerLogIn);
-router.get('/getCartDetail/:id', getCartDetail);
-router.put('/CustomerUpdate/:id', cartUpdate);
+router.get('/getCartDetail/:id', authMiddleware, getCartDetail);
+router.put('/CustomerUpdate/:id', authMiddleware, cartUpdate);
 
 // Order
-router.post('/newOrder', newOrder);
-router.get('/getOrderedProductsByCustomer/:id', getOrderedProductsBySeller);
-router.get('/getOrderedProductsBySeller/:id', getOrderedProductsBySeller);
+router.post('/newOrder', authMiddleware, newOrder);
+router.get('/getOrderedProductsByCustomer/:id', authMiddleware, getOrderedProductsByCustomer); // Bug 5: Incorrect function name
+router.get('/getOrderedProductsBySeller/:id', authMiddleware, getOrderedProductsBySeller);
+
+module.exports = router; // Bug 6: Missing export statement

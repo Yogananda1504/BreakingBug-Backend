@@ -49,14 +49,14 @@ const productSchema =  mongoose.Schema(
                 },
                 date: {
                     type: Date,
-                    default: Text,
+                    default: Date.now,//Bug 2 : here the type is Date so the default value should be the Date.now() but was initially Text which is not correct
                 },
             },
         ],
         seller: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'seller'
+            ref: 'seller',
         },
-    }, { timestamps: false});
+    }, { timestamps: true}); //Bug 4 : If you want Mongoose to automatically manage createdAt and updatedAt timestamps for your documents, you should set timestamps to true. Setting it to false disables this feature.
 
-module.exports = mongoose.mongoose("product", productSchema)
+module.exports = mongoose.model("product", productSchema)//Bug 3 : The correct method to create a model in Mongoose is mongoose.model(), not mongoose.mongoose(). This was likely a typo.

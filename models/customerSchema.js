@@ -9,7 +9,6 @@ const customerSchema = mongoose.Schema({
         type: String,
         unique: true,
         required: true,
-
     },
     password: {
         type: String,
@@ -25,7 +24,8 @@ const customerSchema = mongoose.Schema({
         },
         price: {
             mrp: {
-                type: String
+                type: Number // Bug1: Changed from String to Number
+                // Comment: The mrp (Maximum Retail Price) should be a Number, not a String
             },
             cost: {
                 type: Number
@@ -68,15 +68,17 @@ const customerSchema = mongoose.Schema({
             type: String,
         },
         country: {
-            type: Number,
+            type: String // Bug2: Changed from Number to String
+            // Comment: Country should be a String, not a Number
         },
         pinCode: {
             type: Number,
         },
         phoneNo: {
-            type: Number,
+            type: String // Bug3: Changed from Number to String
+            // Comment: Phone numbers are typically stored as Strings to preserve leading zeros and allow for special characters like '+' for country codes
         },
     }
 });
 
-module.exports = mongoose.model("customer", customerSchema)
+module.exports = mongoose.model("CUSTOMERS", customerSchema) // Bug4: Changed from "customer" to "CUSTOMERS" because of the reference in the productSchema .This ensures that the reference is correct and the data is stored correctly
