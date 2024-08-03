@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 // Middleware to authenticate JWT token
 const authMiddleware = (req, res, next) => {
 
-	const token1 = req.header("Authorization")//Bug :Previously it was not configured to split the token from the header
+	const token1 = req.header("Authorization")
     const token = token1.split(" ")[1]//Bug :Previously it was not configured to split the token from the header
    
 

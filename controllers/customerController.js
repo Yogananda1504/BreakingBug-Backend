@@ -91,20 +91,16 @@ const getCartDetail = async (req, res) => {
     }
 };
 
-
 const cartUpdate = async (req, res) => {
     try {
-        let customer = await Customer.findByIdAndUpdate(req.params.id, req.body, { new: true }); // Bug: Changed new: false to new: true to return the updated document
+        let customer = await Customer.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (customer) {
-            // Bug: Changed from res.send to res.status(200).send for successful update
-            return res.status(200).send(customer.cartDetails); // Status 200 for successful update
+            return res.status(200).send(customer.cartDetails);
         } else {
-            // Bug: Added handling for case when customer is not found
-            return res.status(404).send({ message: 'No customer found' }); // Status 404 for not found
+            return res.status(404).send({ message: 'No customer found' });
         }
     } catch (err) {
-        // Bug: Improved error handling to return a generic server error message
-        return res.status(500).json({ message: 'Internal server error', error: err.message }); // Status 500 for server error
+        return res.status(500).json({ message: 'Internal server error', error: err.message });
     }
 };
 

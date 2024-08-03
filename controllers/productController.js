@@ -258,8 +258,8 @@ const getInterestedCustomers = async (req, res) => {
                     quantity: cartItem.quantity,
                 };
             }
-            return null; // If cartItem is not found in this customer's cartDetails
-        }).filter(item => item !== null); // Remove null values from the result
+            return null; 
+        }).filter(item => item !== null); // Bug : Remove null values from the result.Becuase they are not needed
 
         if (customerDetails.length > 0) {
             res.status(200).json(customerDetails); // Bug: Added proper status code for successful retrieval

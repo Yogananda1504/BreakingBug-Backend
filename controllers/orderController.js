@@ -9,6 +9,7 @@ const newOrder = async (req, res) => {
             paymentInfo,
             productsQuantity,
             totalPrice,
+            
         } = req.body;
 
         const order = await Order.create({
@@ -19,6 +20,7 @@ const newOrder = async (req, res) => {
             paidAt: Date.now(),
             productsQuantity,
             totalPrice,
+            orderStatus: 'Processing'
         });
 
         return res.status(201).send(order); // Bug : Use status 201 for resource created
@@ -74,7 +76,7 @@ const getOrderedProductsBySeller = async (req, res) => {
                 });
                 return accumulator;
             }, []);
-            return res.status(200).send(orderedProducts); //  Bug :Use status 200 for success
+            return res.status(200).send(orderedProducts); // Use status 200 for success
         } else {
             return res.status(404).send({ message: "No products found" }); // Use status 404 for not found
         }
